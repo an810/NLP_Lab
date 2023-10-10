@@ -2,14 +2,13 @@ from jiwer import compute_measures
 import csv
 import json
 
-def check_phoneme(file_path, file_path_store, region, num_lines_to_read):
+def check_phoneme(file_path, file_path_store, num_lines_to_read, area):
     # read file csv
     with open(file_path, mode='r', newline='') as file:
         csv_reader = csv.reader(file)
 
-        # skip 3600 rows
-        for i in range(3600):
-            next(csv_reader)
+        #skip first row
+        next(csv_reader)
 
         line_count = 0
         my_dict = dict()
@@ -18,8 +17,8 @@ def check_phoneme(file_path, file_path_store, region, num_lines_to_read):
             if line_count < num_lines_to_read:
                 line_count += 1
 
-                path = row[1]
-                if path.startswith('train/'+ region) or path.startswith('test/'+ region):
+                _area = row[4]
+                if area == _area:
                     # jiwer to compute phoneme error
                     reference = row[2]
                     hypothesis = row[3]
@@ -98,11 +97,13 @@ def sort_top_10_error(file_path_store):
 
 
 # check error TIMIT and store
-num_lines = 9900 - 3600
+num_lines = 3600-1
+area = '4'
 path = "data/all_area-1.csv"
-region = "dr8"
-path_store = f"results/phoneme_error_timit_{region}.json"
-check_phoneme(file_path=path, file_path_store=path_store, region=region, num_lines_to_read=num_lines,)
+path_store = f"results/phoneme_error_l2_{area}.json"
+
+# for area in range(6):
+check_phoneme(file_path=path, file_path_store=path_store, num_lines_to_read=num_lines, area=area)
 # get top error TIMIT
 sort_top_10_error(file_path_store=path_store)
 # print(top_10)
