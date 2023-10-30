@@ -30,7 +30,7 @@ def plot_cm(file_name, filter):
             k = str(label), str(prediction)
             # print(res[k])
             if (label == prediction):
-                metric.confusion_matrix[labels.index(label), labels.index(prediction)] = 9000
+                metric.confusion_matrix[labels.index(label), labels.index(prediction)] = 8000
             else:
                 try:   
                     print(res[k])
@@ -38,6 +38,10 @@ def plot_cm(file_name, filter):
                 except:
                     metric.confusion_matrix[labels.index(label), labels.index(prediction)] = 0
     
+    # metric.confusion_matrix[labels.index('z'), labels.index('s')] = 5000
+    # metric.confusion_matrix[labels.index('dh'), labels.index('d')] = 5000
+    # metric.confusion_matrix[labels.index('ih'), labels.index('iy')] = 4000
+
     # metric.confusion_matrix[labels.index('S'), labels.index('s')] = 50
     # metric.confusion_matrix[labels.index('r'), labels.index('z')] = 50
     # metric.confusion_matrix[labels.index('n'), labels.index('l')] = 50

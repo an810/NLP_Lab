@@ -7,7 +7,7 @@ def check_phoneme(file_path, num_lines_to_read, fileName, filter, filterName):
     with open(file_path, mode='r', encoding='utf-8') as file:
         csv_reader = csv.reader(file)
         # file_path_store = f"results/en/phoneme_error_{fileName}_full.json"
-        file_path_store = f"results/en/phoneme_error_{fileName}_full{filterName}.json"
+        file_path_store = f"results/vi_top/phoneme_error_{fileName}_full{filterName}.json"
 
         # skip first row
         next(csv_reader)
@@ -101,6 +101,8 @@ def check_phoneme(file_path, num_lines_to_read, fileName, filter, filterName):
         string_dict = {str(key): value for key, value in my_dict.items()}
         with open(file_path_store, "w") as json_file:
             json.dump(string_dict, json_file)
+        sort_top_10_error(file_path_store=file_path_store)
+
     
 def len_file(csv_file_path):
     with open(csv_file_path, 'r') as csv_file:
@@ -109,13 +111,29 @@ def len_file(csv_file_path):
         row_count = sum(1 for row in csv_reader)
         return row_count
 
+def sort_top_10_error(file_path_store):
+    with open(file_path_store, "r") as json_file:
+        data = json.load(json_file)
+
+    # Sort the JSON data based on values (assuming values are numeric)
+    sorted_dict = sorted(data.items(), key=lambda x: x[1], reverse=True)
+    
+    # If you only want the top 10 items, you can slice the sorted list:
+    top_10_items = sorted_dict[:30]
+
+    # If you want to convert the keys back to strings:
+    string_dict = {str(key): value for key, value in top_10_items}
+
+    # Write the sorted data back to the JSON file
+    with open(file_path_store, "w") as json_file:
+        json.dump(string_dict, json_file)
 
 # Nucleus and Tone
 nucleus = ['a', 'E', 'e', 'i', 'O', 'o', '7', 'u', 'M', 'a_X', '7_X', 'E_X', 'O_X', 'ie', 'uo', 'M7']
 tone = ['_1', '_2', '_3', '_4', '_5a', '_5b', '_6a', '_6b']
 
 
-fileName = ["dev", "L2_arctic_train", "test", "Timit", "train_EN"]
+fileName = ["dev", "L2_arctic_train", "test", "Timit", "train_EN", "all"]
 # filterName = "nucleus"
 # filterName = "tone"
 # filterName = "nucleus_tone"
@@ -127,9 +145,10 @@ filterName = ""
 #     num_lines = len_file(csv_file_path=path) - 1
 #     # check_phoneme(file_path=path, num_lines_to_read=num_lines, fileName=name)
 #     check_phoneme(file_path=path, num_lines_to_read=num_lines, fileName=name, filter=[], filterName=filterName)
+#     sort_top_10_error(file_path_store=path_store)
 
-name = "all"
-path = f"EN_MDD/{name}.csv"
-path_store = f"results/en/phoneme_error_{name}_full.json"
+name = "mamnon"
+path = f"data/{name}.csv"
+path_store = f"results/vi_top/phoneme_error_{name}_full.json"
 num_lines = len_file(csv_file_path=path) - 1
 check_phoneme(file_path=path, num_lines_to_read=num_lines, fileName=name, filter=[], filterName=filterName)

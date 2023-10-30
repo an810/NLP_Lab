@@ -75,7 +75,7 @@ def check_phoneme(file_path, file_path_store, num_lines_to_read):
         with open(file_path_store, "w") as json_file:
             json.dump(string_dict, json_file)
 
-def sort_top_20_error(file_path_store):
+def sort_top_10_error(file_path_store):
     with open(file_path_store, "r") as json_file:
         data = json.load(json_file)
 
@@ -83,10 +83,10 @@ def sort_top_20_error(file_path_store):
     sorted_dict = sorted(data.items(), key=lambda x: x[1], reverse=True)
     
     # If you only want the top 10 items, you can slice the sorted list:
-    top_20_items = sorted_dict[:20]
+    top_10_items = sorted_dict[:10]
 
     # If you want to convert the keys back to strings:
-    string_dict = {str(key): value for key, value in top_20_items}
+    string_dict = {str(key): value for key, value in top_10_items}
 
     # Write the sorted data back to the JSON file
     with open(file_path_store, "w") as json_file:
@@ -103,9 +103,12 @@ fileName = ["dev", "test", "train", "test_fix"]
 
 for fileName in fileName:
     path = f"data/{fileName}.csv"
-    path_store = f"results/phoneme_error_{fileName}_full.json"
+    path_store = f"results/vi_top/phoneme_error_{fileName}_full.json"
+    # path = f"EN_MDD/{fileName}.csv"
+    # path_store = f"results/en/phoneme_error_{fileName}_full.json"
     num_lines = len_file(csv_file_path=path) - 1
     check_phoneme(file_path=path, file_path_store=path_store, num_lines_to_read=num_lines)
+    
 
 # get top error TIMIT
 # sort_top_20_error(file_path_store=path_store)

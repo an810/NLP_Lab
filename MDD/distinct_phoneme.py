@@ -23,20 +23,20 @@ def distinct_phoneme(file_path_store, output_file_path):
         json.dump(sorted_unique_phonemes, json_file, indent=4)
 
 
-fileName = ["dev", "L2_arctic_train", "test", "Timit", "train_EN"]
+fileName = ["dev", "L2_arctic_train", "test", "Timit", "train_EN", "all"]
 # filter = "tone"
 # filter = "nucleus"
 # filter = "nucleus_tone"
 filter = ""
 
-# for file_name in fileName:
-#     # file_path_store = f"results/phoneme_error_{file_name}_full_{filter}.json"
-#     # output_file_path = f"confusion_matrix_data/phoneme_error_{file_name}_{filter}.json"
-#     file_path_store = f"results/en/phoneme_error_{file_name}_full{filter}.json"
-#     output_file_path = f"confusion_matrix_data/en/phoneme_error_{file_name}{filter}.json"
-#     distinct_phoneme(file_path_store=file_path_store, output_file_path=output_file_path)
+for file_name in fileName:
+    # file_path_store = f"results/phoneme_error_{file_name}_full_{filter}.json"
+    # output_file_path = f"confusion_matrix_data/phoneme_error_{file_name}_{filter}.json"
+    file_path_store = f"results/en/phoneme_error_{file_name}_full{filter}.json"
+    output_file_path = f"confusion_matrix_data/en/phoneme_error_{file_name}{filter}.json"
+    distinct_phoneme(file_path_store=file_path_store, output_file_path=output_file_path)
 
-file_name = "all"
-file_path_store = f"results/en/phoneme_error_{file_name}_full{filter}.json"
-output_file_path = f"confusion_matrix_data/en/phoneme_error_{file_name}{filter}.json"
-distinct_phoneme(file_path_store=file_path_store, output_file_path=output_file_path)
+# file_name = "all"
+# file_path_store = f"results/en/phoneme_error_{file_name}_full{filter}.json"
+# output_file_path = f"confusion_matrix_data/en/phoneme_error_{file_name}{filter}.json"
+# distinct_phoneme(file_path_store=file_path_store, output_file_path=output_file_path)
